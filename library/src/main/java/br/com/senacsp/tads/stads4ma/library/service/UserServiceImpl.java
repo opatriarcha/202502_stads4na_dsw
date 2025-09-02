@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,4 +21,11 @@ public class UserServiceImpl implements UserService{
         resultset.addAll(this.userRepository.findAll());
         return resultset;
     }
+
+    @Override
+    public User findById(UUID id) {
+        return this.userRepository.findById(id);
+    }
+
+
 }
