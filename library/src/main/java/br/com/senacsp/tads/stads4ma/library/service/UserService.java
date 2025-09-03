@@ -9,4 +9,9 @@ public interface UserService {
     public List<User> findAll();
 
     public User findById(UUID id);
+
+    public boolean deleteById(UUID id);
+
+
+    public User create(User user);
 }

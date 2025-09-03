@@ -40,4 +40,21 @@ public class NonPersistentUserRepository implements UserRepository<User, UUID>{
         }
         return null;
     }
+
+    @Override
+    public boolean removeById(UUID id) {
+        for(User u : this.interalData){
+            if(u.getId().equals(id)){
+                this.interalData.remove(u);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public User create(User user) {
+        this.interalData.add(user);
+        return user;
+    }
 }
