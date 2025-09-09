@@ -37,5 +37,15 @@ public class UserServiceImpl implements UserService{
         return this.userRepository.create(user);
     }
 
+    @Override
+    public boolean existsById(UUID id) {
+        return this.userRepository.existsById(id);
+    }
+
+    @Override
+    public User update(User databaseUser) {
+        return this.userRepository.update(databaseUser);
+    }
+
 
 }

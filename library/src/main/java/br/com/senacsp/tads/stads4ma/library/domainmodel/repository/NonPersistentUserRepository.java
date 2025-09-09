@@ -4,14 +4,12 @@ import br.com.senacsp.tads.stads4ma.library.domainmodel.User;
 import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
-public class NonPersistentUserRepository implements UserRepository<User, UUID>{
+public class NonPersistentUserRepository implements UserRepositoryOld<User, UUID> {
 
-    private final List<User> interalData = new ArrayList<>();
+    private final Set<User> interalData = new HashSet<>();
 
     public NonPersistentUserRepository(){
         Faker faker = new Faker();
@@ -33,9 +31,11 @@ public class NonPersistentUserRepository implements UserRepository<User, UUID>{
 
     @Override
     public User findById(UUID id) {
-        for(User u : this.interalData){
-            if(u.getId().equals(id)){
-                return u;
+        if(this.interalData.contains(id)){
+            for(User u : this.interalData){
+                if(u.getId().equals(id)){
+                    return u;
+                }
             }
         }
         return null;
@@ -43,11 +43,10 @@ public class NonPersistentUserRepository implements UserRepository<User, UUID>{
 
     @Override
     public boolean removeById(UUID id) {
-        for(User u : this.interalData){
-            if(u.getId().equals(id)){
-                this.interalData.remove(u);
-                return true;
-            }
+//        return false;
+        if(this.existsById(id)){
+            User u = this.findById(id);
+            this.interalData.remove(u);
         }
         return false;
     }
@@ -56,5 +55,14 @@ public class NonPersistentUserRepository implements UserRepository<User, UUID>{
     public User create(User user) {
         this.interalData.add(user);
         return user;
+    }
+
+    @Override
+    public User update(User databaseUser) {
+        this.interalData.add(databaseUser);
+    }
+
+    public boolean existsById(UUID id) {
+        return this.interalData.contains(id);
     }
 }

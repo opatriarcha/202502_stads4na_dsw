@@ -45,4 +45,38 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return new ResponseEntity<User>(this.userService.create(user), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@RequestBody User user,  @PathVariable UUID id) {
+        if( !this.userService.existsById(id))
+            return ResponseEntity.notFound().build();
+        User databaseUser = this.userService.findById(id);
+        databaseUser.setName(user.getName());
+        databaseUser.setEmail(user.getEmail());
+        databaseUser.setPassword(user.getPassword());
+        this.userService.deleteById(id);
+        this.userService.update(databaseUser);
+        return ResponseEntity.ok(databaseUser);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> updatePartialUser(@RequestBody User user,  @PathVariable UUID id) {
+        if( !this.userService.existsById(id))
+            return ResponseEntity.notFound().build();
+
+        User databaseUser = this.userService.findById(id);
+
+        if( user.getName() != null)
+            databaseUser.setName(user.getName());
+
+        if( user.getEmail() != null)
+            databaseUser.setEmail(user.getEmail());
+
+        if( user.getPassword() != null)
+            databaseUser.setPassword(user.getPassword());
+
+        this.userService.deleteById(id);
+        this.userService.update(databaseUser);
+        return ResponseEntity.ok(databaseUser);
+    }
 }
