@@ -45,4 +45,9 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return new ResponseEntity<User>(this.userService.create(user), HttpStatus.CREATED);
     }
+    @PutMapping
+    public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody User user){
+        return null;
+    }
+
 }
