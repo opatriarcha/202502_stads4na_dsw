@@ -60,6 +60,7 @@ public class NonPersistentUserRepository implements UserRepositoryOld<User, UUID
     @Override
     public User update(User databaseUser) {
         this.interalData.add(databaseUser);
+        return databaseUser;
     }
 
     public boolean existsById(UUID id) {

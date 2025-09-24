@@ -1,5 +1,6 @@
 package br.com.senacsp.tads.stads4ma.library.domainmodel;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,11 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name="USUARIO")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private @Setter @Getter UUID id;
     private @Setter @Getter String name;
     private @Setter @Getter String email;
