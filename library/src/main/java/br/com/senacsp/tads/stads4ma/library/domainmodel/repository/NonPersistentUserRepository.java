@@ -13,15 +13,15 @@ public class NonPersistentUserRepository implements UserRepositoryOld<User, UUID
 
     public NonPersistentUserRepository(){
         Faker faker = new Faker();
-        for( int i = 0; i < 100; i++ ){
-            User user = new User(
-                    UUID.randomUUID(),
-                    faker.name().fullName(),
-                    faker.internet().emailAddress(),
-                    faker.internet().password()
-            );
-            this.interalData.add(user);
-        }
+//        for( int i = 0; i < 100; i++ ){
+////            User user = new User(
+////                    UUID.randomUUID(),
+////                    faker.name().fullName(),
+////                    faker.internet().emailAddress(),
+////                    faker.internet().password()
+////            );
+////            this.interalData.add(user);
+//        }
     }
 
     @Override

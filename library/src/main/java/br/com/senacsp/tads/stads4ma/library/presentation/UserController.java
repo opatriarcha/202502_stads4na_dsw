@@ -4,7 +4,6 @@ import br.com.senacsp.tads.stads4ma.library.domainmodel.User;
 import br.com.senacsp.tads.stads4ma.library.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

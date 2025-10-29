@@ -1,4 +1,4 @@
-package br.com.senac.sp.stads4ma.dsw.Blog.domainmodel;
+package br.com.senacsp.tads.stads4ma.library.domainmodel;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
