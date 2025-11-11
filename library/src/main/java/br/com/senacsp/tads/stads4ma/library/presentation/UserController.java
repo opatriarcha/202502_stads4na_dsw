@@ -1,14 +1,15 @@
 package br.com.senacsp.tads.stads4ma.library.presentation;
 
 import br.com.senacsp.tads.stads4ma.library.domainmodel.User;
+import br.com.senacsp.tads.stads4ma.library.presentation.dtos.UserDTO;
 import br.com.senacsp.tads.stads4ma.library.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,11 +19,26 @@ public class UserController {
     private final UserService userService;
 
 
-//    @RequestMapping(produces = "json", method = RequestMethod.GET)
-    @GetMapping//http://localhost:8080/api/users
-    public ResponseEntity<List<User>> fetchAllUsers() {
-        return ResponseEntity.ok().body(this.userService.findAll());
+
+    @GetMapping
+    public ResponseEntity<Set<UserDTO>> fetchAllUsers() {
+        System.out.println("called");
+        List<User> users = this.userService.findAll();
+
+        if(users.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        Set<UserDTO> usersDto = new HashSet<>();
+
+        for( User user : users) {
+            usersDto.add(UserDTO.fromEntity(user));
+        }
+
+        return ResponseEntity.ok(usersDto);
     }
+
+
+
     //http://localhost:8080/api/users/{id}}
     @GetMapping("/{id}")
     public ResponseEntity<User> fetchById(@PathVariable UUID id) {
@@ -41,8 +57,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return new ResponseEntity<User>(this.userService.create(user), HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO user) {
+        return new ResponseEntity<UserDTO>(
+                UserDTO.fromEntity(
+                        this.userService.create(UserDTO.fromDTO(user)
+                        )
+                ),
+                HttpStatus.CREATED
+        );
     }
     @PutMapping
     public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody User user){
